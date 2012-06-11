@@ -15,7 +15,7 @@ describe("our use of global namespace", function () {
     it("should not introduce non-namespaced globals", function () {
         var dubious_global_things = [];
         var allowed_in_global = [
-            "sabre_mobile"
+            "BackboneJasmine"
         ];
         for (var prop in _captured_global_namespace) {
             if (!in_array(prop, allowed_in_global)) {

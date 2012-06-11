@@ -25,4 +25,9 @@ Search form
 
 Basically I intend to hit the blizzard API to retrieve the feed of a given character on a given realm. To start
 off let's create a search view and get started with a really basic test to load a fixture and make sure it's been
-been loaded.
+been loaded (See commit de9247810ec74ab647f61258f955843651f99800).
+
+Next let's set up Backbone.js to bind to that fixture. It's a good idea to namespace your JS, so we'll introduce a
+BackboneJasmine namespace for all of the code. This is now a global variable, so the gobal namespace checker will
+complain, so we need to update the globalNameSpaceChecker.spec.js file to allow this variable. Next we can go ahead and
+create our search view.
