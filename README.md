@@ -18,4 +18,11 @@ Set-up
 ======
 
 To get started everything is in the setup branch. I have also included a simple node https server to serve
-up the the SpecRunner file.
+up the the SpecRunner file (running on http://localhost:3000), a few helper libraries (jasmine-jquery and jasmine-sinon) with additional matchers.
+
+Search form
+===========
+
+Basically I intend to hit the blizzard API to retrieve the feed of a given character on a given realm. To start
+off let's create a search view and get started with a really basic test to load a fixture and make sure it's been
+been loaded.
