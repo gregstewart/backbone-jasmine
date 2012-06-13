@@ -60,4 +60,4 @@ code:
         expect(this.model.get('realm')).toBe('Aman\'thul');
     });
 
-Time to build up the SearchModel (see SearchModel.js for [commit]()).
+Time to build up the SearchModel (see SearchModel.js for [commit](8f65bebc21aadc613cff3e37d7a83e917fa4e1f0)).
