@@ -60,4 +60,40 @@ code:
         expect(this.model.get('realm')).toBe('Aman\'thul');
     });
 
-Time to build up the SearchModel (see SearchModel.js for [commit](8f65bebc21aadc613cff3e37d7a83e917fa4e1f0)).
+Time to build up the SearchModel and make sure it instantiates with sensible defaults (see SearchModel.js for
+[commit](8f65bebc21aadc613cff3e37d7a83e917fa4e1f0)).
+
+Backbone has a validate() method, that gets called whenever an attribute is set or the model is saved. This
+in turn triggers an error event when things aren't quite right. So let's try and put it to use and write
+some tests around not being able to set an empty character and realm.
+
+    describe('validation', function () {
+
+        beforeEach(function () {
+            this.errorEventSpy = sinon.spy();
+            this.model.bind('error', this.errorEventSpy);
+
+            this.changeEventSpy = sinon.spy();
+            this.model.bind('change', this.changeEventSpy);
+        });
+
+        it('should not allow an empty character name', function() {
+            this.model.set({characterName: ''});
+
+            expect(this.changeEventSpy).not.toHaveBeenCalled();
+            expect(this.errorEventSpy).toHaveBeenCalled();
+            expect(this.model.get('characterName')).toBe(this.characterName);
+        });
+
+        it('should not allow an empty realm name', function() {
+            this.model.set({realm: ''});
+
+            expect(this.changeEventSpy).not.toHaveBeenCalled();
+            expect(this.errorEventSpy).toHaveBeenCalled();
+            expect(this.model.get('realm')).toBe(this.realm);
+        });
+    });
+
+I am using [sinon](http://sinonjs.org/) for spying in these examples and I have also pulled in a bunch of
+[custom matchers](https://github.com/froots/jasmine-sinon). The code to help the tests pass can found @ [commit]().
+
