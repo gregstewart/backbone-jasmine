@@ -106,4 +106,4 @@ Time to hook the code into back into the View Model, let's start by taking the d
        expect($('#realm').val()).toBe(this.view.model.get('realm'));
     });
 
-The code to make this test pass can be found [here]()
+The code to make this test pass can be found [here](eeebc6eb515eddb8e6f7aada4237819bfa2161c9)
