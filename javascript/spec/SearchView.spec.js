@@ -13,5 +13,10 @@ describe('search view', function () {
         it('should create search container', function () {
             expect(this.view.el.nodeName).toEqual('SECTION');
         });
+
+        it('should populate the form fields with values from the model', function() {
+           expect($('#characterName').val()).toBe(this.view.model.get('characterName'));
+           expect($('#realm').val()).toBe(this.view.model.get('realm'));
+        });
     });
 });

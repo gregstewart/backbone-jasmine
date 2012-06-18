@@ -95,5 +95,15 @@ some tests around not being able to set an empty character and realm.
     });
 
 I am using [sinon](http://sinonjs.org/) for spying in these examples and I have also pulled in a bunch of
-[custom matchers](https://github.com/froots/jasmine-sinon). The code to help the tests pass can found @ [commit]().
+[custom matchers](https://github.com/froots/jasmine-sinon). The code to help the tests pass can found @
+[commit](89e9e320c10f45c238dd574427840ca41ddb7f4e).
 
+Time to hook the code into back into the View Model, let's start by taking the default values from the model and putting
+ into the view. Here's the test code:
+
+    it('should populate the form fields with values from the model', function() {
+       expect($('#characterName').val()).toBe(this.view.model.get('characterName'));
+       expect($('#realm').val()).toBe(this.view.model.get('realm'));
+    });
+
+The code to make this test pass can be found [here]()
