@@ -229,5 +229,5 @@ not just the outcome. Let's extend this and actually render an error message.
         expect($('#characterName').prev().text()).toBe($('#characterName').data('error'));
     });
 
-Time to add a ['showError']() method that will prepend a div to the element in question and insert the text stored in the
-element's data-error attribute.
+Time to add a ['showError'](7e8e0c1) method that will prepend a div to the element in question and insert the text stored in the
+element's data-error attribute. And this for now at least concludes the search view part.
