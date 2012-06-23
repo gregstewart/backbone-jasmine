@@ -107,3 +107,28 @@ Time to hook the code into back into the View Model, let's start by taking the d
     });
 
 The code to make this test pass can be found [here](eeebc6eb515eddb8e6f7aada4237819bfa2161c9)
+
+With some basic validation in place, it's time to return to the view and write some tests around saving values set in the
+ view back to the model and also make sure the validation is triggered.
+
+    describe('saving values back to the model', function() {
+
+        it('should save entered values back to our model', function() {
+            var name = 'Some name',
+                realm = 'Some realm';
+
+            $('#characterName').val(name);
+            $('#realm').val(realm);
+
+            $('button').trigger('click');
+
+            expect(this.view.model.get('characterName')).toBe(name);
+            expect(this.view.model.get('realm')).toBe(realm);
+
+        });
+
+    });
+
+Now write some code to make the test pass, by first binding an event to a click action which calls a method to set
+the values in the model [here]().
+

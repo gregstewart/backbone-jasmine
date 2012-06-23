@@ -1,6 +1,6 @@
 describe('search view', function () {
     beforeEach(function () {
-        loadFixtures('search-form.html')
+        loadFixtures('search-form.html');
         this.view = new BackboneJasmine.SearchView();
     });
 
@@ -19,4 +19,22 @@ describe('search view', function () {
            expect($('#realm').val()).toBe(this.view.model.get('realm'));
         });
     });
+
+    describe('saving values back to the model', function() {
+
+        it('should save entered values back to our model', function() {
+            var name = 'Some name',
+                realm = 'Some realm';
+
+            $('#characterName').val(name);
+            $('#realm').val(realm);
+
+            $('button').trigger('click');
+
+            expect(this.view.model.get('characterName')).toBe(name);
+            expect(this.view.model.get('realm')).toBe(realm);
+
+        })
+
+    })
 });
