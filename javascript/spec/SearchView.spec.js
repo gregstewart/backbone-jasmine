@@ -39,7 +39,7 @@ describe('search view', function () {
         describe('validation fails', function() {
             beforeEach(function() {
                 var spy = sinon.spy(this.view, 'setError');
-                this.originalName = this.view.model.get('characterName'),
+                this.originalName = this.view.model.get('characterName');
                 this.originalRealm = this.view.model.get('realm');
 
                 $('#characterName').val('');

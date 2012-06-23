@@ -8,11 +8,11 @@ BackboneJasmine.SearchModel = Backbone.Model.extend({
 
     validate: function(attrs) {
         if (attrs.characterName === '') {
-            return 'empty character name supplied'
+            return 'empty character name supplied';
         }
 
         if (attrs.realm === '') {
-            return 'empty realm supplied'
+            return 'empty realm supplied';
         }
     }
 });
