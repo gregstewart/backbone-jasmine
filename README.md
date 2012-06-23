@@ -202,4 +202,32 @@ a method gets called as part of the event execution (such as the setError method
     });
 
 I already new the code was being called, but I feel happier now that I can assert that the method is being called and
-not just the outcome.
+not just the outcome. Let's extend this and actually render an error message.
+
+    beforeEach(function() {
+        var spy = sinon.spy(this.view, 'setError'),
+            spyShowError = sinon.spy(this.view, 'showError');
+        this.originalName = this.view.model.get('characterName');
+        this.originalRealm = this.view.model.get('realm');
+
+        $('#characterName').val('');
+        $('#realm').val('');
+
+        $('button').trigger('click');
+    });
+
+    afterEach(function() {
+        this.view.setError.restore();
+        this.view.showError.restore();
+    });
+
+    ...
+
+    it('should display an error message', function() {
+        expect(this.view.showError).toHaveBeenCalled();
+        expect($('#characterName').prev()).toHaveClass('error-message');
+        expect($('#characterName').prev().text()).toBe($('#characterName').data('error'));
+    });
+
+Time to add a ['showError']() method that will prepend a div to the element in question and insert the text stored in the
+element's data-error attribute.

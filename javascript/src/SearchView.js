@@ -22,11 +22,13 @@ BackboneJasmine.SearchView = Backbone.View.extend({
         this.model.set({ 'characterName': $('#characterName').val()},
             { error: function(model, error) {
                 self.setError('characterName', error);
+                self.showError('characterName');
             }
         });
         this.model.set({ 'realm': $('#realm').val()},
             { error: function(model, error) {
                 self.setError('realm', error);
+                self.showError('realm');
             }
         });
     },
@@ -34,5 +36,9 @@ BackboneJasmine.SearchView = Backbone.View.extend({
     setError: function(key, message) {
         $('#' + key ).addClass('error');
         $('#' + key ).data('error', message);
+    },
+
+    showError: function(key) {
+        $('#' + key).before('<div class="error-message">' + $('#' + key).data('error') + '</div>');
     }
 });

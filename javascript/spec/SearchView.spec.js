@@ -38,7 +38,8 @@ describe('search view', function () {
 
         describe('validation fails', function() {
             beforeEach(function() {
-                var spy = sinon.spy(this.view, 'setError');
+                var spy = sinon.spy(this.view, 'setError'),
+                    spyShowError = sinon.spy(this.view, 'showError');
                 this.originalName = this.view.model.get('characterName');
                 this.originalRealm = this.view.model.get('realm');
 
@@ -50,6 +51,7 @@ describe('search view', function () {
 
             afterEach(function() {
                 this.view.setError.restore();
+                this.view.showError.restore();
             });
 
             it('should not save values if the validation fails', function() {
@@ -57,11 +59,17 @@ describe('search view', function () {
                 expect(this.view.model.get('realm')).toBe(this.originalRealm);
             });
 
-            it('should show error messages in the UI', function() {
+            it('should store error messages in the UI', function() {
                 expect(this.view.setError).toHaveBeenCalled();
                 expect($('#characterName')).toHaveClass('error');
                 expect($('#characterName').data('error')).toBeDefined();
                 expect($('#characterName').data('error')).toBe('empty character name supplied');
+            });
+
+            it('should display an error message', function() {
+                expect(this.view.showError).toHaveBeenCalled();
+                expect($('#characterName').prev()).toHaveClass('error-message');
+                expect($('#characterName').prev().text()).toBe($('#characterName').data('error'));
             });
         });
 
