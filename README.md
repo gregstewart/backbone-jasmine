@@ -171,4 +171,35 @@ a little:
         });
     });
 
-The code to make this test pass can be found [here](b96aedc)
+The code to make this test pass can be found [here](b96aedc). Let's expand this test a little and play with spies
+and test that the setError method was actually called. I am doing this because it's a concept I am wrestling with. Short
+of [monkey patching](http://stackoverflow.com/questions/10865364/qunit-sinon-js-backbone-unit-test-frustration-sinon-spy-appears-to-fail-to-d),
+I have not been able to set up spies on events that are bound when the view initialises. However, you can set a spy on
+a method gets called as part of the event execution (such as the setError method in this case). So the test is updated as follows:
+
+    beforeEach(function() {
+        var spy = sinon.spy(this.view, 'setError');
+        this.originalName = this.view.model.get('characterName'),
+        this.originalRealm = this.view.model.get('realm');
+
+        $('#characterName').val('');
+        $('#realm').val('');
+
+        $('button').trigger('click');
+    });
+
+    afterEach(function() {
+        this.view.setError.restore();
+    });
+
+    ...
+
+    it('should show error messages in the UI', function() {
+        expect(this.view.setError).toHaveBeenCalled();
+        expect($('#characterName')).toHaveClass('error');
+        expect($('#characterName').data('error')).toBeDefined();
+        expect($('#characterName').data('error')).toBe('empty character name supplied');
+    });
+
+I already new the code was being called, but I feel happier now that I can assert that the method is being called and
+not just the outcome.
