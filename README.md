@@ -124,11 +124,51 @@ With some basic validation in place, it's time to return to the view and write s
 
             expect(this.view.model.get('characterName')).toBe(name);
             expect(this.view.model.get('realm')).toBe(realm);
-
         });
 
     });
 
 Now write some code to make the test pass, by first binding an event to a click action which calls a method to set
-the values in the model [here]().
+the values in the model [here](11b26e0). Likewise we can now test that the we cannot store empty values:
 
+    describe('validation fails', function() {
+        it('should not save values if the validation fails', function() {
+            var originalName = this.view.model.get('characterName'),
+                originalRealm = this.view.model.get('realm');
+
+            $('#characterName').val('');
+            $('#realm').val('');
+
+            $('button').trigger('click');
+
+            expect(this.view.model.get('characterName')).toBe(originalName);
+            expect(this.view.model.get('realm')).toBe(originalRealm);
+
+        });
+    });
+
+Making use of the error event that has been raised by the model, let's see if we can't push something into the view to
+help fix those errors. Let start by testing for an error class and a data-error attribute. The test has been re-worked
+a little:
+
+    describe('validation fails', function() {
+        beforeEach(function() {
+            this.originalName = this.view.model.get('characterName'),
+            this.originalRealm = this.view.model.get('realm');
+
+            $('#characterName').val('');
+            $('#realm').val('');
+
+            $('button').trigger('click');
+        });
+
+        .....
+
+        it('should show error messages in the UI', function() {
+            expect($('#characterName')).toHaveClass('error');
+            expect($('#characterName').data('error')).toBeDefined();
+            expect($('#characterName').data('error')).toBe('empty character name supplied');
+        });
+    });
+
+The code to make this test pass can be found [here]()

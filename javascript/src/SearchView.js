@@ -18,9 +18,21 @@ BackboneJasmine.SearchView = Backbone.View.extend({
     },
 
     setValues: function() {
-        this.model.set({'characterName': $('#characterName').val(),
-                        'realm': $('#realm').val()});
+        var self = this;
+        this.model.set({ 'characterName': $('#characterName').val()},
+            { error: function(model, error) {
+                self.setError('characterName', error);
+            }
+        });
+        this.model.set({ 'realm': $('#realm').val()},
+            { error: function(model, error) {
+                self.setError('realm', error);
+            }
+        });
+    },
+
+    setError: function(key, message) {
+        $('#' + key ).addClass('error');
+        $('#' + key ).data('error', message);
     }
-
-
 });
