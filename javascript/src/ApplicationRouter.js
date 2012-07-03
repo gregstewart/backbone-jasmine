@@ -7,7 +7,7 @@ BackboneJasmine.ApplicationRouter = Backbone.Router.extend({
 	},
 
 	index: function() {
-
+		this.searchView = new BackboneJasmine.SearchView();
 	},
 
 	search: function(realm, character) {

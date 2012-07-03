@@ -251,6 +251,7 @@ Before dealing with the submission and fetching results, a quick detour into rou
 
         afterEach(function() {
             this.router.navigate('/javascript/spec/SpecRunner.html');
+            Backbone.history.stop();
         });
 
         it('should by default call the index route', function() {
@@ -298,3 +299,35 @@ And the code to make it pass:
 
     search: function(realm, character) {
     }
+
+Now that the scaffold for the application is done, it's time to flesh it out starting with the index route and making it initialise the search interface (SearchView). Start off with editing our initial beforeEach and afterEach
+
+    beforeEach(function() {
+        this.router = new BackboneJasmine.ApplicationRouter();
+        this.searchViewStub = sinon.stub(BackboneJasmine, 'SearchView').returns(new Backbone.View());
+        
+        ...
+    });
+
+    afterEach(function() {
+        this.searchViewStub.restore();
+        ...
+    });
+
+Now for the actual test:
+
+    describe('index', function() {
+        beforeEach(function() {
+            this.router.index();
+        });
+
+        it('should created the search view', function() {
+            expect(this.searchViewStub).toHaveBeenCalledOnce();
+        });
+    });
+
+A stub was created for our SearchView and we are now watching this and want to make sure it gets called when we call the index function. To make the test pass simply instantiate the SearchView in the ApplicationRouter.js file:
+
+    index: function() {
+        this.searchView = new BackboneJasmine.SearchView();
+    },

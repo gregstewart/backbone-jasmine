@@ -1,6 +1,7 @@
 describe('Application routes', function() {
 	beforeEach(function() {
 		this.router = new BackboneJasmine.ApplicationRouter();
+		this.searchViewStub = sinon.stub(BackboneJasmine, 'SearchView').returns(new Backbone.View());
 		this.routerSpy = sinon.spy();
 
 		try {
@@ -12,7 +13,9 @@ describe('Application routes', function() {
 	});
 
 	afterEach(function() {
+		this.searchViewStub.restore();
 		this.router.navigate('/javascript/spec/SpecRunner.html');
+		Backbone.history.stop();
 	});
 
 	it('should by default call the index route', function() {
@@ -29,6 +32,16 @@ describe('Application routes', function() {
 
 		expect(this.routerSpy).toHaveBeenCalledOnce();
 		expect(this.routerSpy).toHaveBeenCalledWith('1','2');
+	});
+
+	describe('index', function() {
+		beforeEach(function() {
+			this.router.index();
+		});
+
+		it('should created the search view', function() {
+			expect(this.searchViewStub).toHaveBeenCalledOnce();
+		});
 	});
 
 });
