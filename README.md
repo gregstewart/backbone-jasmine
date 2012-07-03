@@ -289,18 +289,12 @@ A search route is also needed, test first:
 
 And the code to make it pass:
 
-var BackboneJasmine = BackboneJasmine || {};
-
-BackboneJasmine.ApplicationRouter = Backbone.Router.extend({
     routes: {
         '': 'index',
         'search/:realm/:character': 'search'
     },
 
-    index: function() {
-
-    },
+    ...
 
     search: function(realm, character) {
     }
-});
