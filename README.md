@@ -231,3 +231,76 @@ not just the outcome. Let's extend this and actually render an error message.
 
 Time to add a ['showError'](7e8e0c1) method that will prepend a div to the element in question and insert the text stored in the
 element's data-error attribute. And this for now at least concludes the search view part.
+
+##Routes##
+
+Before dealing with the submission and fetching results, a quick detour into routes where the application is glued together. What follows are some tests to make sure the routes defined are being triggered when we navigate to the url, starting with the index action:
+
+    describe('Application routes', function() {
+        beforeEach(function() {
+            this.router = new BackboneJasmine.ApplicationRouter();
+            this.routerSpy = sinon.spy();
+
+            try {
+                Backbone.history.start({silent: true, pushState: true});
+            } catch(e) {
+            }
+
+            this.router.navigate('/javascript/spec/SpecRunner.html');
+        });
+
+        afterEach(function() {
+            this.router.navigate('/javascript/spec/SpecRunner.html');
+        });
+
+        it('should by default call the index route', function() {
+            this.router.bind('route:index', this.routerSpy, this);
+            this.router.navigate('', {trigger: true});
+            
+            expect(this.routerSpy).toHaveBeenCalledOnce();
+            expect(this.routerSpy).toHaveBeenCalledWith();
+        });
+
+    });
+
+And here's the ApplicationRouter file to make the test pass:
+
+    var BackboneJasmine = BackboneJasmine || {};
+
+    BackboneJasmine.ApplicationRouter = Backbone.Router.extend({
+        routes: {
+            '': 'index',
+        },
+
+        index: function() {
+
+        }
+    });
+
+A search route is also needed, test first:
+
+    it('should call the search route when #search is navigated to', function() {
+        this.router.bind('route:search', this.routerSpy, this);
+        this.router.navigate('search/1/2', {trigger: true});
+
+        expect(this.routerSpy).toHaveBeenCalledOnce();
+        expect(this.routerSpy).toHaveBeenCalledWith('1','2');
+    });
+
+And the code to make it pass:
+
+var BackboneJasmine = BackboneJasmine || {};
+
+BackboneJasmine.ApplicationRouter = Backbone.Router.extend({
+    routes: {
+        '': 'index',
+        'search/:realm/:character': 'search'
+    },
+
+    index: function() {
+
+    },
+
+    search: function(realm, character) {
+    }
+});
