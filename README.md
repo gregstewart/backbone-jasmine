@@ -331,3 +331,9 @@ A stub was created for our SearchView and we are now watching this and want to m
     index: function() {
         this.searchView = new BackboneJasmine.SearchView();
     },
+
+That's it for now with regards to the routes, I'll coming back to these once the search component has been completed.
+
+##Demo##
+
+In the root of the code there's a little demo index.html file that you can browse to if you are using the 'node app.js' server, just go to: [http://localhost:3000/index.html](http://localhost:3000/index.html).

@@ -6,6 +6,10 @@ BackboneJasmine.ApplicationRouter = Backbone.Router.extend({
 		'search/:realm/:character': 'search'
 	},
 
+	initialize: function() {
+		Backbone.history.start();
+	},
+
 	index: function() {
 		this.searchView = new BackboneJasmine.SearchView();
 	},

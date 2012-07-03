@@ -1,0 +1,28 @@
+<html>
+<head>
+	<title>Backbone Jasmine</title>
+</head>
+<body>
+	<section class='search-form'>
+	    <input type="text" name="characterName" id="characterName" value="">
+	    <input type="text" name="realm" id="realm" value="">
+
+	    <button>Go</button>
+	</section>
+
+ 	<!-- include source files here... -->
+ 	<script src="javascript/vendor/jquery-1.7.2.min.js"></script>
+ 	<script src="javascript/vendor/json2.js"></script>
+    <script src="javascript/vendor/underscore-min.js"></script>
+    <script src="javascript/vendor/backbone-min.js"></script>
+    <script src="javascript/src/ApplicationRouter.js"></script>
+    <script src="javascript/src/SearchModel.js"></script>
+    <script src="javascript/src/SearchView.js"></script>
+
+    <script>
+    	$(document).ready(function() {
+		     new BackboneJasmine.ApplicationRouter();
+        });
+    </script>
+</body>
+</html>
