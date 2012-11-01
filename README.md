@@ -337,3 +337,70 @@ That's it for now with regards to the routes, I'll coming back to these once the
 ##Demo##
 
 In the root of the code there's a little demo index.html file that you can browse to if you are using the 'node app.js' server, just go to: [http://localhost:3000/index.html](http://localhost:3000/index.html).
+
+##Search Results##
+
+In the following we will leverage Backbone Collections and the fetch feature in order to make a call to the service,
+receive some JSON and build up an array of models from that response. Let's start with creating the collection tests:
+
+    describe('Search Collection', function() {
+
+        beforeEach(function() {
+            this.collection = new BackboneJasmine.SearchCollection();
+        });
+
+        it('should initialise with an empty collection', function() {
+            expect(this.collection.length).toBe(0);
+        });
+    });
+
+Next populating the collection with some dummy data:
+
+    describe('fetch', function() {
+        beforeEach(function() {
+            this.server = sinon.fakeServer.create();
+            this.server.respondWith('GET', '/search', [
+                200,
+                {"Content-Type": "application/json"},
+                this.response
+            ]);
+        });
+
+        afterEach(function() {
+            this.server.restore();
+            this.collection.reset();
+        });
+
+        it('should populate the collection', function() {
+
+            this.collection.fetch();
+            this.server.respond();
+
+            expect(this.server.requests.length)
+                .toEqual(1);
+            expect(this.server.requests[0].method)
+                .toEqual("GET");
+            expect(this.server.requests[0].url)
+                .toEqual("/search");
+
+            expect(this.collection.length).toBe(JSON.parse(this.response).feed.length);
+        })
+    });
+
+Since the API is for a character's feed, let's call our model Feed. The call to fetch() will go away get the JSON and
+magically take the data and create one feed model for each feed entry returned and store it in the collection. However
+because the response is wrapped within a feed object, the collection object also has a parse method to handle the
+response and let Backbone to work the magic described previously.
+
+    var BackboneJasmine = BackboneJasmine || {};
+
+    BackboneJasmine.SearchCollection = Backbone.Collection.extend({
+        model: BackboneJasmine.Feed,
+        url:'search',
+
+        parse:function (response) {
+            return response.feed;
+        }
+    });
+
+

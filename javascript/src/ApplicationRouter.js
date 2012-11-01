@@ -2,8 +2,8 @@ var BackboneJasmine = BackboneJasmine || {};
 
 BackboneJasmine.ApplicationRouter = Backbone.Router.extend({
 	routes: {
-		'': 'index',
-		'search/:realm/:character': 'search'
+		'': 'index'
+        , 'search/:realm/:character': 'search'
 	},
 
 	initialize: function() {
@@ -15,5 +15,6 @@ BackboneJasmine.ApplicationRouter = Backbone.Router.extend({
 	},
 
 	search: function(realm, character) {
+
 	}
 });
