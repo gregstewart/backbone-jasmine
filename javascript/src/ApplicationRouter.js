@@ -8,13 +8,13 @@ BackboneJasmine.ApplicationRouter = Backbone.Router.extend({
 
 	initialize: function() {
 		Backbone.history.start();
-	},
+    },
 
 	index: function() {
-		this.searchView = new BackboneJasmine.SearchView();
-	},
+        this.searchView = new BackboneJasmine.SearchView();
+    },
 
 	search: function(realm, character) {
-
-	}
+//        this.resultView = new BackboneJasmine.ResultView();
+    }
 });

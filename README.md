@@ -403,4 +403,146 @@ response and let Backbone to work the magic described previously.
         }
     });
 
+##Display Results##
 
+Time to display the response back to the user, to this end we'll leverage the Underscore.js built-in templating language,
+our template to represent the Feed model will end up looking something like this:
+
+    <dl>
+        <dt>itemId</dt>
+        <dd><%= itemId %></dd>
+        <dt>timestamp</dt>
+        <dd><%= timestamp %></dd>
+        <dt>type</dt>
+        <dd><%= type %></dd>
+        <dt>featOfStrength</dt>
+        <dd><%= featOfStrength %></dd>
+        <dt>name</dt>
+        <dd><%= name %></dd>
+        <dt>quantity</dt>
+        <dd><%= quantity %></dd>
+    </dl>
+
+We'll use a FeedView to populate the template, so given what we know about the FeedModel and the JS template, let's go
+ahead and write some tests to populate the template from the model.
+
+    describe('Feed View', function () {
+        beforeEach(function() {
+            loadFixtures('search-results.html');
+        });
+
+        it('should render a view item based on model values', function () {
+            var feedModel = new BackboneJasmine.Feed({
+                    'itemId':'1',
+                    'timestamp':'1',
+                    'type': 'LOOT',
+                    'featOfStrength': 'Feat of Strength',
+                    'name': 'Name',
+                    'quantity': '1'
+                }),
+                view = new BackboneJasmine.FeedView({model:feedModel}),
+                el = '';
+
+            view.render();
+
+            el = $(view.el).find('dl dd');
+
+            expect($(el[0]).text()).toBe(view.model.get('itemId'));
+            expect($(el[1]).text()).toBe(view.model.get('timestamp'));
+            expect($(el[2]).text()).toBe(view.model.get('type'));
+            expect($(el[3]).text()).toBe(view.model.get('featOfStrength'));
+            expect($(el[4]).text()).toBe(view.model.get('name'));
+            expect($(el[5]).text()).toBe(view.model.get('quantity'));
+        });
+    });
+
+To get the tests to pass we need to first create a FeedView object and it will look as follows:
+
+    var BackboneJasmine = BackboneJasmine || {};
+
+    BackboneJasmine.FeedView = Backbone.View.extend({
+
+        tagName: 'li',
+        className: 'feed',
+        model: BackboneJasmine.Feed,
+
+        render: function() {
+            var variables = {
+                itemId: this.model.get('itemId'),
+                timestamp: this.model.get('timestamp'),
+                type: this.model.get('type'),
+                featOfStrength: this.model.get('featOfStrength'),
+                name: this.model.get('name'),
+                quantity: this.model.get('quantity')
+            };
+
+            var template = _.template($('#result-item').html(), variables);
+            this.$el.html(template);
+        }
+
+    });
+
+The next step involve sbuilding out the result view, which will be bound to out collection and disply multiple FeedViews.
+Let's start by fleshing out the test a little to get us started
+
+    describe('Result View', function() {
+        beforeEach(function() {
+
+        });
+
+        it('should load a fixture', function () {
+            expect($('section.search-results')).toExist();
+        });
+
+        it('should display a result data', function() {
+
+            var els = $('.search-results > ul li');
+            expect($('.search-results')).not.toBeHidden();
+            expect(els.length).not.toBe(0);
+            expect(els.find('dl > dd').first().text()).toBe('77022');
+        });
+    });
+
+
+We can get the first test to pass easily, by creating our fixture and adding it to the spec, but we'll also need to start
+start pulling our result view, which will populated with our response fixture:
+
+    beforeEach(function() {
+        loadFixtures('search-results.html');
+        this.response = readFixtures('feed.json');
+
+        this.view = new BackboneJasmine.ResultView();
+        this.view.collection.add(JSON.parse(this.response).feed);
+        this.view.render();
+    });
+
+With this in place, we can build out the ResultView object.
+
+    var BackboneJasmine = BackboneJasmine || {};
+
+    BackboneJasmine.ResultView = Backbone.View.extend({
+        el: 'section.search-results',
+
+        initialize: function() {
+            _.bindAll(this, 'addFeed');
+
+            this.collection = new BackboneJasmine.SearchCollection();
+            this.$el.hide();
+            this.render();
+        },
+
+        render: function() {
+            this.$el.show();
+            this.collection.each(this.addFeed);
+        },
+
+        addFeed: function(feed) {
+            var view = new BackboneJasmine.FeedView({model: feed}),
+                feedItem = view.render().el;
+            this.$el.find('ul').append(feedItem);
+        }
+
+    });
+
+This is an idealistic view of syncing data between your services and your UI. Next up I'll look at customising the
+collection fetch method and later on extend this to make a JSONP call.
