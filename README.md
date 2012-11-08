@@ -22,13 +22,13 @@ up the the SpecRunner file (running on http://localhost:3000), a few helper libr
 
 Basically I intend to hit the blizzard API to retrieve the feed of a given character on a given realm. To start
 off let's create a search view and get started with a really basic test to load a fixture and make sure it's been
-been loaded ([see commit](de9247810ec74ab647f61258f955843651f99800)).
+been loaded ([see commit](backbone-jasmine/commit/de9247810ec74ab647f61258f955843651f99800)).
 
 Next let's set up Backbone.js to bind to that fixture. It's a good idea to namespace your JS, so we'll introduce a
 BackboneJasmine namespace for all of the code. This is now a global variable, so the gobal namespace checker will
 complain, so we need to update the globalNameSpaceChecker.spec.js file to allow this variable.
 
-Next we can go ahead and create our search view ([see commit](dc4ad52fb76a78a75324ce2b5440ee5ba84724c1)).
+Next we can go ahead and create our search view ([see commit](backbone-jasmine/commit/dc4ad52fb76a78a75324ce2b5440ee5ba84724c1)).
 
     beforeEach(function () {
         loadFixtures('search-form.html')
@@ -61,7 +61,7 @@ code:
     });
 
 Time to build up the SearchModel and make sure it instantiates with sensible defaults (see SearchModel.js for
-[commit](8f65bebc21aadc613cff3e37d7a83e917fa4e1f0)).
+[commit](backbone-jasmine/commit/8f65bebc21aadc613cff3e37d7a83e917fa4e1f0)).
 
 Backbone has a validate() method, that gets called whenever an attribute is set or the model is saved. This
 in turn triggers an error event when things aren't quite right. So let's try and put it to use and write
@@ -96,7 +96,7 @@ some tests around not being able to set an empty character and realm.
 
 I am using [sinon](http://sinonjs.org/) for spying in these examples and I have also pulled in a bunch of
 [custom matchers](https://github.com/froots/jasmine-sinon). The code to help the tests pass can found @
-[commit](89e9e320c10f45c238dd574427840ca41ddb7f4e).
+[commit](backbone-jasmine/commit/89e9e320c10f45c238dd574427840ca41ddb7f4e).
 
 Time to hook the code into back into the View Model, let's start by taking the default values from the model and putting
  into the view. Here's the test code:
@@ -106,7 +106,7 @@ Time to hook the code into back into the View Model, let's start by taking the d
        expect($('#realm').val()).toBe(this.view.model.get('realm'));
     });
 
-The code to make this test pass can be found [here](eeebc6eb515eddb8e6f7aada4237819bfa2161c9)
+The code to make this test pass can be found [here](backbone-jasmine/commit/eeebc6eb515eddb8e6f7aada4237819bfa2161c9)
 
 With some basic validation in place, it's time to return to the view and write some tests around saving values set in the
  view back to the model and also make sure the validation is triggered.
@@ -129,7 +129,7 @@ With some basic validation in place, it's time to return to the view and write s
     });
 
 Now write some code to make the test pass, by first binding an event to a click action which calls a method to set
-the values in the model [here](11b26e0). Likewise we can now test that the we cannot store empty values:
+the values in the model [here](backbone-jasmine/commit/11b26e0). Likewise we can now test that the we cannot store empty values:
 
     describe('validation fails', function() {
         it('should not save values if the validation fails', function() {
@@ -234,7 +234,8 @@ element's data-error attribute. And this for now at least concludes the search v
 
 ##Routes##
 
-Before dealing with the submission and fetching results, a quick detour into routes where the application is glued together. What follows are some tests to make sure the routes defined are being triggered when we navigate to the url, starting with the index action:
+Before dealing with the submission and fetching results, a quick detour into routes where the application is glued together.
+What follows are some tests to make sure the routes defined are being triggered when we navigate to the url, starting with the index action:
 
     describe('Application routes', function() {
         beforeEach(function() {
@@ -300,7 +301,8 @@ And the code to make it pass:
     search: function(realm, character) {
     }
 
-Now that the scaffold for the application is done, it's time to flesh it out starting with the index route and making it initialise the search interface (SearchView). Start off with editing our initial beforeEach and afterEach
+Now that the scaffold for the application is done, it's time to flesh it out starting with the index route and making it
+initialise the search interface (SearchView). Start off with editing our initial beforeEach() and afterEach()
 
     beforeEach(function() {
         this.router = new BackboneJasmine.ApplicationRouter();
@@ -326,7 +328,8 @@ Now for the actual test:
         });
     });
 
-A stub was created for our SearchView and we are now watching this and want to make sure it gets called when we call the index function. To make the test pass simply instantiate the SearchView in the ApplicationRouter.js file:
+A stub was created for our SearchView and we are now watching this and want to make sure it gets called when we call the
+index function. To make the test pass simply instantiate the SearchView in the ApplicationRouter.js file:
 
     index: function() {
         this.searchView = new BackboneJasmine.SearchView();
@@ -336,7 +339,8 @@ That's it for now with regards to the routes, I'll coming back to these once the
 
 ##Demo##
 
-In the root of the code there's a little demo index.html file that you can browse to if you are using the 'node app.js' server, just go to: [http://localhost:3000/index.html](http://localhost:3000/index.html).
+In the root of the code there's a little demo index.html file that you can browse to if you are using the 'node app.js'
+server, just go to: [http://localhost:3000/index.html](http://localhost:3000/index.html).
 
 ##Search Results##
 
@@ -402,6 +406,8 @@ response and let Backbone to work the magic described previously.
             return response.feed;
         }
     });
+
+All the code is in the ['Search Results branch'](backbone-jasmine/commit/cfe636e).
 
 ##Display Results##
 
@@ -482,7 +488,7 @@ To get the tests to pass we need to first create a FeedView object and it will l
 
     });
 
-The next step involve sbuilding out the result view, which will be bound to out collection and disply multiple FeedViews.
+The next step involves building out the result view, which will be bound to out collection and disply multiple FeedViews.
 Let's start by fleshing out the test a little to get us started
 
     describe('Result View', function() {
@@ -544,5 +550,5 @@ With this in place, we can build out the ResultView object.
 
     });
 
-This is an idealistic view of syncing data between your services and your UI. Next up I'll look at customising the
+['This is an idealistic view'](backbone-jasmine/commit/7581346) of syncing data between your services and your UI. Next up I'll look at customising the
 collection fetch method and later on extend this to make a JSONP call.
