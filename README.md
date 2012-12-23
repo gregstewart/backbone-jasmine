@@ -411,8 +411,7 @@ All the code is in the ['Search Results branch'](backbone-jasmine/commit/cfe636e
 
 ##Display Results##
 
-Time to display the response back to the user, to this end we'll leverage the Underscore.js built-in templating language,
-our template to represent the Feed model will end up looking something like this:
+Time to display the response back to the user, to this end we'll leverage Underscore.js built-in templating language. Our template to represent the Feed model will end up looking something like this:
 
     <dl>
         <dt>itemId</dt>
@@ -429,8 +428,7 @@ our template to represent the Feed model will end up looking something like this
         <dd><%= quantity %></dd>
     </dl>
 
-We'll use a FeedView to populate the template, so given what we know about the FeedModel and the JS template, let's go
-ahead and write some tests to populate the template from the model.
+We'll use a FeedView to populate the template, so given what we know about the FeedModel and the JS template, let's go ahead and write some tests to populate the template from the model.
 
     describe('Feed View', function () {
         beforeEach(function() {
@@ -488,8 +486,7 @@ To get the tests to pass we need to first create a FeedView object and it will l
 
     });
 
-The next step involves building out the result view, which will be bound to out collection and disply multiple FeedViews.
-Let's start by fleshing out the test a little to get us started
+The next step involves building out the result view, which will be bound to our collection and display multiple FeedViews. Let's start by fleshing out the test a little to get us started
 
     describe('Result View', function() {
         beforeEach(function() {
@@ -510,8 +507,7 @@ Let's start by fleshing out the test a little to get us started
     });
 
 
-We can get the first test to pass easily, by creating our fixture and adding it to the spec, but we'll also need to start
-start pulling our result view, which will populated with our response fixture:
+We can get the first test to pass easily by creating our fixture and adding it to the spec, but we'll also need to start start pulling our result view, which will be populated with our response fixture:
 
     beforeEach(function() {
         loadFixtures('search-results.html');
@@ -550,5 +546,4 @@ With this in place, we can build out the ResultView object.
 
     });
 
-['This is an idealistic view'](backbone-jasmine/commit/7581346) of syncing data between your services and your UI. Next up I'll look at customising the
-collection fetch method and later on extend this to make a JSONP call.
+['This is an idealistic view'](backbone-jasmine/commit/7581346) of syncing data between your services and your UI. Next up I'll look at customising the collection fetch method and later on extend this to make a JSONP call.
