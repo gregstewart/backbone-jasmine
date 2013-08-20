@@ -2,7 +2,7 @@ var express = require("express"),
     app     = express.createServer();
     
 app.get("/", function(req, res) {
-  res.redirect("/javascript/spec/SpecRunner.html");
+  res.redirect("/test/spec/SpecRunner.html");
 });
 
 app.configure(function(){

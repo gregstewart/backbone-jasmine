@@ -5,6 +5,6 @@ BackboneJasmine.SearchCollection = Backbone.Collection.extend({
     url:'/search',
 
     parse:function (response) {
-        return response.feed;
+        return response[0].feed;
     }
 });
