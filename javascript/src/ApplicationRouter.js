@@ -15,6 +15,6 @@ BackboneJasmine.ApplicationRouter = Backbone.Router.extend({
     },
 
 	search: function(realm, character) {
-//        this.resultView = new BackboneJasmine.ResultView();
+        this.resultView = new BackboneJasmine.ResultView();
     }
 });

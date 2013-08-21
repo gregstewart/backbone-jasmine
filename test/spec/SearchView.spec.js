@@ -1,10 +1,6 @@
 describe('search view', function () {
     beforeEach(function () {
-        if (typeof window.__karma__ !== 'undefined') {
-          jasmine.getFixtures().set(window.__html__['test/fixtures/search-form.html']);
-        } else {
-          loadFixtures('search-form.html');
-        }
+        fixtureLoader('search-form.html');
 
         this.view = new BackboneJasmine.SearchView();
     });

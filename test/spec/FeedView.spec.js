@@ -1,10 +1,6 @@
 describe('Feed View', function () {
     beforeEach(function() {
-        if (typeof window.__karma__ !== 'undefined') {
-          jasmine.getFixtures().set(window.__html__['test/fixtures/search-results.html']);
-        } else {
-          loadFixtures('search-results.html');
-        }
+      fixtureLoader('search-results.html');
     });
 
     it('should render a view item based on model values', function () {
